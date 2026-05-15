@@ -43,6 +43,11 @@ app.get('/projects', async (req, res) => {
     res.render('projects', { title });
 });
 
+app.get('/categories', async (req, res) => {
+    const title = 'Project category page';
+    res.render('categories', { title });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running in ${NODE_ENV} mode`);
     console.log(`Server listening on http://localhost:${PORT}`);
