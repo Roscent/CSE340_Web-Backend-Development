@@ -1,0 +1,28 @@
+{
+  "name": "cse340_web-backend-development",
+  "version": "1.0.0",
+  "description": "Web backend development",
+  "homepage": "https://github.com/Roscent/CSE340_Web-Backend-Development#readme",
+  "bugs": {
+    "url": "https://github.com/Roscent/CSE340_Web-Backend-Development/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Roscent/CSE340_Web-Backend-Development.git"
+  },
+  "license": "ISC",
+  "author": "Roscent Nkemjika Ofuonye",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
