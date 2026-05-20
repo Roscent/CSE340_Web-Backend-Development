@@ -35,7 +35,30 @@ app.get('/', async (req, res) => {
 
 app.get('/organizations', async (req, res) => {
     const title = 'Our Partner Organizations';
-    res.render('organizations', { title });
+
+    const organizations = [
+        {
+            name: "BrightFuture Builders logo",
+            logo_filename: "brightfuture-logo.png",
+            contact_email: "info@brightfuture.org"
+        },
+        {
+            name: "GreenHarvest Growers logo",
+            logo_filename: "greenharvest-logo.png",
+            contact_email: "contact@greenharvest.org"
+        },
+        {
+            name: "UnityServe Volunteers logo",
+            logo_filename: "unityserve-logo.png",
+            contact_email: "hello@unityserve.org"
+        }
+    ];
+
+    // 2. Pass BOTH the title and the organizations array to the view
+    res.render('organizations', { 
+        title, 
+        organizations 
+    });
 });
 
 app.get('/projects', async (req, res) => {
