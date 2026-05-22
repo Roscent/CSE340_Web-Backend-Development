@@ -1,6 +1,8 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { testConnection } from './src/models/db.js';
+import categoryModel from './src/models/categories.js';
 
 // Define the the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -54,7 +56,6 @@ app.get('/organizations', async (req, res) => {
         }
     ];
 
-    // 2. Pass BOTH the title and the organizations array to the view
     res.render('organizations', { 
         title, 
         organizations 
@@ -67,11 +68,26 @@ app.get('/projects', async (req, res) => {
 });
 
 app.get('/categories', async (req, res) => {
-    const title = 'Project category page';
-    res.render('categories', { title });
+    try {
+        const categoriesData = await categoryModel.getAllCategories();
+        
+        // Pass both variables to match your EJS layout
+        res.render('categories', { 
+            title: 'Partner Categories', 
+            categories: categoriesData 
+        });
+    } catch (error) {
+        console.error('Error in /categories route:', error);
+        res.status(500).send('Server Error - Unable to retrieve categories');
+    }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running in ${NODE_ENV} mode`);
-    console.log(`Server listening on http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await testConnection();
+    console.log(`Server is running at http://127.0.0.1:${PORT}`);
+    console.log(`Environment: ${NODE_ENV}`);
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+  }
 });
