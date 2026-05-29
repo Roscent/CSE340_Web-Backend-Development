@@ -1,6 +1,44 @@
 <%- include('partials/header') %>
     <main>
-        <h1><%= title %></h1>
-        <p>Coming Soon!</p>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <h2>
+            <%= project.title %>
+        </h2>
+
+        <% if (project.description) { %>
+            <p><strong>Description:</strong>
+                <%= project.description %>
+            </p>
+            <% } %>
+
+                <% if (project.location) { %>
+                    <p><strong>Location:</strong>
+                        <%= project.location %>
+                    </p>
+                    <% } %>
+
+                        <% if (project.date) { %>
+                            <p><strong>Date:</strong>
+                                <%= project.date.toDateString ? project.date.toDateString() : project.date %>
+                            </p>
+                            <% } %>
+
+                                <% if (categories && categories.length> 0) { %>
+                                    <p><strong>Categories:</strong></p>
+                                    <ul>
+                                        <% categories.forEach(category=> { %>
+                                            <li>
+                                                <a href="/category/<%= category.category_id %>">
+                                                    <%= category.name %>
+                                                </a>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    <% } %>
+
+                                        <p><a href="/projects">← Back to all projects</a></p>
     </main>
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>

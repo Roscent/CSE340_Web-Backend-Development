@@ -1,16 +1,23 @@
 <%- include('partials/header') %>
     <main>
-        <img src="/images/category.png" alt="Categories Logo" width="100">
         <h1>
             <%= title %>
         </h1>
-        <p>Here are a few of our partner categories:</p>
-        <ul>
-            <% categories.forEach(category=> { %>
-                <li>
-                    <%= category.name %>
-                </li>
-                <% }); %>
-        </ul>
+
+        <p>Browse service projects by category:</p>
+
+        <% if (categories && categories.length> 0) { %>
+            <ul>
+                <% categories.forEach(category=> { %>
+                    <li>
+                        <a href="/category/<%= category.category_id %>">
+                            <%= category.name %>
+                        </a>
+                    </li>
+                    <% }); %>
+            </ul>
+            <% } else { %>
+                <p>No categories found.</p>
+                <% } %>
     </main>
     <%- include('partials/footer') %>
