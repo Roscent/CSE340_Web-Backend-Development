@@ -4,41 +4,25 @@
             <%= title %>
         </h1>
 
-        <h2>
-            <%= project.title %>
-        </h2>
-
-        <% if (project.description) { %>
-            <p><strong>Description:</strong>
-                <%= project.description %>
-            </p>
-            <% } %>
-
-                <% if (project.location) { %>
-                    <p><strong>Location:</strong>
-                        <%= project.location %>
-                    </p>
-                    <% } %>
-
-                        <% if (project.date) { %>
-                            <p><strong>Date:</strong>
-                                <%= project.date.toDateString ? project.date.toDateString() : project.date %>
-                            </p>
+        <% if (projects && projects.length> 0) { %>
+            <ul>
+                <% projects.forEach(project=> { %>
+                    <li>
+                        <a href="/project/<%= project.project_id %>">
+                            <%= project.title %>
+                        </a>
+                        <% if (project.organization_name) { %>
+                            - <a href="/organization/<%= project.organization_id %>">
+                                <%= project.organization_name %>
+                            </a>
                             <% } %>
+                    </li>
+                    <% }); %>
+            </ul>
+            <% } else { %>
+                <p>No projects found.</p>
+                <% } %>
 
-                                <% if (categories && categories.length> 0) { %>
-                                    <p><strong>Categories:</strong></p>
-                                    <ul>
-                                        <% categories.forEach(category=> { %>
-                                            <li>
-                                                <a href="/category/<%= category.category_id %>">
-                                                    <%= category.name %>
-                                                </a>
-                                            </li>
-                                            <% }); %>
-                                    </ul>
-                                    <% } %>
-
-                                        <p><a href="/projects">← Back to all projects</a></p>
+                    <p><a href="/">← Back to home</a></p>
     </main>
     <%- include('partials/footer') %>

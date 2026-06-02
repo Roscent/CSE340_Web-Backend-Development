@@ -3,14 +3,15 @@ import db from './db.js'
 /* *****************************
  * Get all service projects
  * *************************** */
+// src/models/projects.js
 async function getAllProjects() {
     try {
-        const sql = "SELECT * FROM public.projects ORDER BY project_name ASC";
+        const sql = "SELECT * FROM project ORDER BY title ASC";
         const data = await db.query(sql);
         return data.rows;
     } catch (error) {
         console.error("getAllProjects error: " + error);
-        return []; // Return an empty array if the query fails to prevent crashing
+        return [];
     }
 }
 
