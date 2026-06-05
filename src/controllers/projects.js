@@ -1,5 +1,5 @@
 // Import any needed model functions
-import { getAllProjects } from '../models/projects.js';
+import { getAllProjects, getProjectById } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 
 // Define any controller functions

@@ -1,0 +1,111 @@
+Coaching Session Transcript: Roscent Nkemjika Ofuonye (Week 03)
+Coach: Welcome! Just to be clear from the start, this is a coaching session, not a test. It is perfectly okay—and even encouraged—to say 'I don't know' or 'I made a mistake.' That's the fastest way we'll learn today. Before we dive into the code, let's make sure we're properly introduced. Could you please share your name with me?
+
+Roscent: ROSCENT NKEMJIKA OFUONYE
+
+Coach: It is wonderful to meet you, Roscent! I am excited to act as your learning coach and software mentor today. Remember, this is a completely safe space to explore, discuss, and even make mistakes as we review your assignment. Since we are chatting here, whenever we dive into a specific part of your project, please paste the relevant code snippet directly into our chat so we can look at it together. Let's get started with Topic 1: Models. Could you please share a non-trivial code snippet from one of your model functions—specifically one that accepts a parameter and includes it in an SQL query?
+
+Roscent:
+
+JavaScript
+const getAllOrganizations = async() => {
+    const query = `
+        SELECT organization_id, name, description, contact_email, logo_filename
+      FROM public.organization;
+    `;
+
+    const result = await db.query(query);
+
+    return result.rows;
+}
+Coach: Thank you for sharing that, Roscent! This is a clean and well-structured asynchronous function for retrieving all organizations. Looking at this snippet, it doesn't currently accept any parameters or include them in the SQL query itself. Do you have another model function in your project—such as one that fetches a specific organization by its ID—that accepts a parameter and uses it in the SQL query? If so, could you please paste that snippet?
+
+Roscent:
+
+JavaScript
+const getOrganizationDetails = async (organizationId) => {
+      const query = `
+      SELECT
+        organization_id,
+        name,
+        description,
+        contact_email,
+        logo_filename
+      FROM organization
+      WHERE organization_id = $1;
+    `;
+
+      const queryParams = [organizationId];
+      const result = await db.query(query, queryParams);
+
+      // Return the first row of the result set, or null if no rows are found
+      return result.rows.length > 0 ? result.rows[0] : null;
+};
+Coach: Perfect, Roscent! This is exactly what I was looking for. This is a great, secure model function. I see that you used $1 in your SQL string and passed [organizationId] inside the queryParams array to db.query. Could you explain why you chose to use this parameterized approach ($1) instead of just inserting the organizationId directly into the SQL string?
+
+Roscent: With parameterized approach the database sees WHERE organization_id = $1 and compiles the plan once and simply reuses the plan and plugs in the new ID for subsequent request thereby making the application faster and lighter on database resources
+
+Coach: Spot on, Roscent! That is a fantastic explanation of the performance benefits. By allowing the database to compile the execution plan once and reuse it, you save a lot of overhead. There is also a major security benefit to this approach—it completely prevents SQL Injection attacks, because the database strictly treats the parameter as data, never as executable code. Awesome job. Let's move on to Topic 2: Views. Could you please paste a non-trivial EJS snippet from your views—specifically one that dynamically inserts data into a link (like an href attribute)?
+
+Roscent:
+
+HTML
+<ul>
+      <% organizations.forEach(organization=> { %>
+        <li>
+          <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo">
+          <a href="/organization/<%= organization.organization_id %>">
+            <%= organization.name %>
+          </a>: <%= organization.contact_email %>
+        </li>
+        <% }) %>
+    </ul>
+Coach: That is a great EJS snippet, Roscent! It perfectly demonstrates how to loop through a list of data and build HTML elements dynamically. I see right here where you insert the dynamic ID into the link: <a href="/organization/<%= organization.organization_id %>">. Could you explain what the difference is between using <%= %> (which you used here) and <% %> (which you used for the forEach loop) in EJS?
+
+Roscent: The Output Tag <%= %> executes the JavaScript inside and renders the result directly into the HTML. It is used what there's a specific piece of data like a string, a number or a variable that needs to fill an HTML attribute. The Logic Tag <% %> is used to control flow and logic, it executes the JavaScript inside it but does not print anything to the HTML page
+
+Coach: Beautifully explained! You hit the nail on the head. <%= %> outputs the value straight to the browser, while <% %> is just for managing the JavaScript logic behind the scenes like loops and conditions. Let's keep this momentum going and move on to Topic 3: Controllers. Could you please paste a code snippet of a route handler (or routing logic) from your controller that handles a route parameter?
+
+Roscent:
+
+JavaScript
+const showCategoryDetailsPage = async (req, res) => {
+    const categoryId = req.params.id;
+    const category = await getCategoryById(categoryId);
+    
+    if (!category) {
+        const err = new Error('Category not found');
+        err.status = 404;
+        throw err;
+    }
+    
+    const projects = await getProjectsByCategoryId(categoryId);
+    const title = `Category: ${category.name}`;
+
+    res.render('category', { title, category, projects });
+};
+Coach: This is a highly robust controller function, Roscent. I love that you are proactively checking if the category exists and throwing an error if it doesn't! In the second line, you have: const categoryId = req.params.id;. Could you walk me through how Express knows to match that specific id parameter from the URL path, and what a typical URL route definition (like router.get(...)) would look like to make this work?
+
+Roscent: Express matches that specific ID using the Route Parameter, when a user visits a matching URL Express extracts whatever value is in that position and automatically stuffs it into the req.params object.
+
+Coach: Exactly! Express parses that URL and automatically creates that neat key-value pair inside req.params. To tie it all together, the route definition in your router file would look something like router.get('/category/:id', showCategoryDetailsPage);. That colon (:) tells Express, "Hey, look out for a dynamic variable here and call it 'id'!" Let's move on to our final topic, Topic 4: Error Handling. In your controller code above, you did a great job throwing a 404 error if a category wasn't found. Could you please share the code snippet of your actual error-handling middleware or mechanism that catches these errors and renders a 404 or 500 status page for the user?
+
+Roscent:
+
+HTML
+<main>
+        <h1>Page Not Found</h1>
+        <p>The page you are looking for does not exist.</p>
+        <p>Return to the <a href="/">homepage</a> to continue browsing.</p>
+    </main>
+Coach: Thank you for sharing your 404 view snippet, Roscent! This gives the user a clear message and a helpful way to get back to safety on the homepage. To make this EJS page actually show up when an error happens, Express relies on an error-handling middleware function in your main application file (usually server.js or app.js). Could you share that middleware code snippet, or explain how your application catches the error thrown in your controller and decides to render this specific "Page Not Found" view?
+
+Roscent:
+
+JavaScript
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err);
+});
+Coach: Excellent! That snippet is the perfect "catch-all" middleware for handling 404 errors when a requested route doesn't match any of your defined paths. It creates the error, sets the status, and passes it down the line using next(err). To complete the full picture of how Express processes this, there is typically one final error-handling middleware block downstream that actually receives that err object, reads err.status, and calls res.render('404') to send your HTML page to the browser.

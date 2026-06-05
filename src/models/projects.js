@@ -3,7 +3,6 @@ import db from './db.js'
 /* *****************************
  * Get all service projects
  * *************************** */
-// src/models/projects.js
 async function getAllProjects() {
     try {
         const sql = "SELECT * FROM project ORDER BY title ASC";
