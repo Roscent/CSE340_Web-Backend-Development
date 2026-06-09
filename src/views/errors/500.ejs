@@ -7,8 +7,8 @@
         <% if (NODE_ENV==='development' ) { %>
             <details open>
                 <summary>Error Details (Development Only)</summary>
-                <pre><%= error %></pre>
-                <pre><%= stack %></pre>
+                <pre>Error: <%= error %></pre>
+                <pre>Stack: <%= stack %></pre>
             </details>
             <% } %>
     </main>

@@ -1,0 +1,62 @@
+<%- include('partials/header') %>
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <form action="/edit-category/<%= category.category_id %>" method="POST" id="categoryForm">
+            <div class="form-group">
+                <label for="name">Category Name</label>
+                <input type="text" id="name" name="name" value="<%= category.name %>" maxlength="100" required
+                    autofocus />
+                <small>Category name must be between 3 and 100 characters.</small>
+            </div>
+
+            <button type="submit">Update Category</button>
+            <a href="/category/<%= category.category_id %>" class="cancel-link">Cancel</a>
+        </form>
+
+        <p><a href="/categories">← Back to Categories</a></p>
+    </main>
+
+    <script>
+        // Client-side validation for edit category form
+        document.getElementById('categoryForm').addEventListener('submit', function (e) {
+            const nameInput = document.getElementById('name');
+            const name = nameInput.value.trim();
+
+            // Clear any existing error messages
+            let existingError = document.getElementById('client-error');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Client-side validation (no min length per requirements)
+            if (name === '') {
+                e.preventDefault();
+                showError('Category name is required');
+                nameInput.focus();
+                return false;
+            }
+
+            if (name.length > 100) {
+                e.preventDefault();
+                showError('Category name cannot exceed 100 characters');
+                nameInput.focus();
+                return false;
+            }
+
+            function showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.id = 'client-error';
+                errorDiv.className = 'alert error';
+                errorDiv.style.marginBottom = '15px';
+                errorDiv.textContent = message;
+
+                const form = document.getElementById('categoryForm');
+                form.insertBefore(errorDiv, form.firstChild);
+            }
+        });
+    </script>
+
+    <%- include('partials/footer') %>

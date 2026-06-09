@@ -35,8 +35,7 @@ CREATE TABLE IF NOT EXISTS project (
     name VARCHAR(200) NOT NULL,
     description TEXT,
     organization_id INTEGER REFERENCES organization(organization_id) ON DELETE SET NULL,
-    start_date DATE,
-    end_date DATE,
+    date DATE,
     location VARCHAR(255)
 );
 

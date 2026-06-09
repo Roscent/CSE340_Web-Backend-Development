@@ -5,20 +5,34 @@
         </h1>
 
         <h2>
-            <%= organizationDetails.name %> <!-- Fixed: was hardcoded "Roscious Ventures" -->
+            <%= organizationDetails.name %>
         </h2>
         <img src="/images/<%= organizationDetails.logo_filename %>" alt="<%= organizationDetails.name %> logo">
 
-        <p>Description: <%= organizationDetails.description %>
+        <p><strong>Description:</strong>
+            <%= organizationDetails.description %>
         </p>
+        <p><strong>Contact Email:</strong> <a href="mailto:<%= organizationDetails.contact_email %>">
+                <%= organizationDetails.contact_email %>
+            </a></p>
+
+        <p><a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization Details</a></p>
 
         <h3>Service Projects</h3>
-        <ul>
-            <% projects.forEach(project=> { %>
-                <li><a href="/project/<%= project.project_id %>">
-                        <%= project.title %>
-                    </a></li>
+        <% if (projects && projects.length> 0) { %>
+            <ul>
+                <% projects.forEach(project=> { %>
+                    <li>
+                        <a href="/project/<%= project.project_id %>">
+                            <%= project.title %>
+                        </a>
+                    </li>
                 <% }) %>
-        </ul>
+            </ul>
+            <% } else { %>
+                <p>No service projects currently listed for this organization.</p>
+                <% } %>
+
+            <p><a href="/organizations">← Back to all organizations</a></p>
     </main>
     <%- include('partials/footer') %>

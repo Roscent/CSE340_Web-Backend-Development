@@ -216,3 +216,32 @@ main ul li {
     background-color: #d1ecf1;
     border-color: #bee5eb;
 }
+
+.cancel-link {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.cancel-link:hover {
+    background-color: #5a6268;
+}
+
+small {
+    display: block;
+    color: #6c757d;
+    margin-top: 5px;
+    font-size: 0.875em;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #f5c6cb;
+}

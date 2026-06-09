@@ -1,40 +1,51 @@
 <%- include('partials/header') %>
     <main>
         <h1>
-            <%= title %>
+            <%= project.title %>
         </h1>
+        <p><a href="/edit-project/<%= project.project_id %>" class="edit-link">Edit Project</a></p>
 
-        <% if (project.description) { %>
-            <p><strong>Description:</strong>
-                <%= project.description %>
-            </p>
+        <p><strong>Hosted By:</strong>
+            <a href="/organization/<%= project.organization_id %>">
+                <%= project.organization_name %>
+            </a>
+        </p>
+
+        <p><strong>Date:</strong>
+            <%= (project.date instanceof Date) ? project.date.toDateString() : new Date(project.date).toDateString() %>
+        </p>
+
+        <p><strong>Location:</strong>
+            <%= project.location %>
+        </p>
+
+        <p><strong>Description:</strong>
+            <%= project.description %>
+        </p>
+
+        <% if (categories && categories.length> 0) { %>
+            <div class="category-tags" style="margin-top: 20px;">
+                <strong>Categories:</strong>
+                <ul style="display: inline-block; padding-left: 5px; margin: 0;">
+                    <% categories.forEach(category=> { %>
+                        <li style="display: inline; margin-right: 10px;">
+                            <a href="/category/<%= category.category_id %>" class="tag">
+                                <%= category.name %>
+                            </a>
+                        </li>
+                    <% }) %>
+                </ul>
+                <p style="margin-top: 10px;">
+                    <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
+                </p>
+            </div>
+            <% } else { %>
+                <div class="category-tags" style="margin-top: 20px;">
+                    <p><strong>Categories:</strong> No categories assigned yet.</p>
+                    <p><a href="/project/<%= project.project_id %>/assign-categories">Add Categories</a></p>
+                </div>
             <% } %>
 
-                <% if (project.location) { %>
-                    <p><strong>Location:</strong>
-                        <%= project.location %>
-                    </p>
-                    <% } %>
-
-                        <% if (project.date) { %>
-                            <p><strong>Date:</strong>
-                                <%= project.date.toDateString ? project.date.toDateString() : project.date %>
-                            </p>
-                            <% } %>
-
-                                <% if (categories && categories.length> 0) { %>
-                                    <p><strong>Categories:</strong></p>
-                                    <ul>
-                                        <% categories.forEach(category=> { %>
-                                            <li>
-                                                <a href="/category/<%= category.category_id %>">
-                                                    <%= category.name %>
-                                                </a>
-                                            </li>
-                                            <% }); %>
-                                    </ul>
-                                    <% } %>
-
-                                        <p><a href="/projects">← Back to all projects</a></p>
+                <p style="margin-top: 30px;"><a href="/projects">← Back to Upcoming Projects</a></p>
     </main>
     <%- include('partials/footer') %>

@@ -6,6 +6,8 @@
 
         <p>Browse service projects by category:</p>
 
+        <p><a href="/new-category" class="btn btn-primary">+ Add New Category</a></p>
+
         <% if (categories && categories.length> 0) { %>
             <ul>
                 <% categories.forEach(category=> { %>
@@ -13,11 +15,12 @@
                         <a href="/category/<%= category.category_id %>">
                             <%= category.name %>
                         </a>
+                        <a href="/edit-category/<%= category.category_id %>" class="edit-link">(Edit)</a>
                     </li>
                     <% }); %>
             </ul>
             <% } else { %>
-                <p>No categories found.</p>
-                <% } %>
+                <p>No categories found. <a href="/new-category">Create the first category</a>.</p>
+            <% } %>
     </main>
     <%- include('partials/footer') %>
