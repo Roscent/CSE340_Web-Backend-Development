@@ -16,7 +16,9 @@
                 <%= organizationDetails.contact_email %>
             </a></p>
 
-        <p><a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization Details</a></p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p><a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization Details</a></p>
+        <% } %>
 
         <h3>Service Projects</h3>
         <% if (projects && projects.length> 0) { %>
@@ -31,7 +33,7 @@
             </ul>
             <% } else { %>
                 <p>No service projects currently listed for this organization.</p>
-                <% } %>
+            <% } %>
 
             <p><a href="/organizations">← Back to all organizations</a></p>
     </main>

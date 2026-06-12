@@ -6,7 +6,9 @@
 
         <p>Browse service projects by category:</p>
 
-        <p><a href="/new-category" class="btn btn-primary">+ Add New Category</a></p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p><a href="/new-category" class="btn btn-primary">+ Add New Category</a></p>
+        <% } %>
 
         <% if (categories && categories.length> 0) { %>
             <ul>
@@ -15,9 +17,11 @@
                         <a href="/category/<%= category.category_id %>">
                             <%= category.name %>
                         </a>
-                        <a href="/edit-category/<%= category.category_id %>" class="edit-link">(Edit)</a>
+                        <% if (user && user.role_name==='admin' ) { %>
+                            <a href="/edit-category/<%= category.category_id %>" class="edit-link">(Edit)</a>
+                        <% } %>
                     </li>
-                    <% }); %>
+                <% }); %>
             </ul>
             <% } else { %>
                 <p>No categories found. <a href="/new-category">Create the first category</a>.</p>

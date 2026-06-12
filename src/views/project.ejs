@@ -3,7 +3,9 @@
         <h1>
             <%= project.title %>
         </h1>
-        <p><a href="/edit-project/<%= project.project_id %>" class="edit-link">Edit Project</a></p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p><a href="/edit-project/<%= project.project_id %>" class="edit-link">Edit Project</a></p>
+        <% } %>
 
         <p><strong>Hosted By:</strong>
             <a href="/organization/<%= project.organization_id %>">
@@ -35,14 +37,18 @@
                         </li>
                     <% }) %>
                 </ul>
-                <p style="margin-top: 10px;">
-                    <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
-                </p>
+                <% if (user && user.role_name==='admin' ) { %>
+                    <p style="margin-top: 10px;">
+                        <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
+                    </p>
+                <% } %>
             </div>
             <% } else { %>
                 <div class="category-tags" style="margin-top: 20px;">
                     <p><strong>Categories:</strong> No categories assigned yet.</p>
-                    <p><a href="/project/<%= project.project_id %>/assign-categories">Add Categories</a></p>
+                    <% if (user && user.role_name==='admin' ) { %>
+                        <p><a href="/project/<%= project.project_id %>/assign-categories">Add Categories</a></p>
+                    <% } %>
                 </div>
             <% } %>
 

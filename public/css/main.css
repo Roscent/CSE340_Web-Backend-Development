@@ -245,3 +245,176 @@ small {
     border-radius: 4px;
     border: 1px solid #f5c6cb;
 }
+
+/* ========================================
+   Users Page Styles
+   ======================================== */
+
+/* Users table container */
+.users-container {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+/* Users table styling */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.users-table th,
+.users-table td {
+    border: 1px solid #e0e0e0;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.users-table th {
+    background: linear-gradient(135deg, #00acc1 0%, #00838f 100%);
+    color: white;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.users-table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.users-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.users-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.users-table tr:hover {
+    background-color: #e0f7fa;
+    transition: background-color 0.2s ease;
+}
+
+/* Role badge styling */
+.role-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.role-admin {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    box-shadow: 0 1px 3px rgba(238, 90, 36, 0.3);
+}
+
+.role-user {
+    background: linear-gradient(135deg, #4CAF50 0%, #2e7d32 100%);
+    color: white;
+    box-shadow: 0 1px 3px rgba(76, 175, 80, 0.3);
+}
+
+/* Admin section on dashboard */
+.admin-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8eaf6 100%);
+    border: 1px solid #00acc1;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.admin-section h3 {
+    color: #00838f;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-left: 3px solid #00acc1;
+    padding-left: 12px;
+}
+
+.admin-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-section li {
+    background: white;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s ease;
+}
+
+.admin-section li:hover {
+    transform: translateX(5px);
+    border-color: #00acc1;
+    box-shadow: 0 2px 8px rgba(0, 172, 193, 0.2);
+}
+
+.admin-section a {
+    text-decoration: none;
+    color: #00acc1;
+    font-weight: 600;
+    display: block;
+}
+
+.admin-section a:hover {
+    color: #00838f;
+}
+
+/* Responsive table for mobile */
+@media (max-width: 768px) {
+    .users-table {
+        font-size: 0.85rem;
+    }
+
+    .users-table th,
+    .users-table td {
+        padding: 8px 10px;
+    }
+
+    .role-badge {
+        padding: 2px 8px;
+        font-size: 0.7rem;
+    }
+
+    .users-container {
+        overflow-x: scroll;
+    }
+
+    .users-table {
+        min-width: 500px;
+    }
+}
+
+.users-container p:first-of-type {
+    background: #e0f7fa;
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: #00838f;
+    margin-bottom: 20px;
+}
+
+.users-container>p:last-of-type {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.users-container a {
+    color: #00acc1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.users-container a:hover {
+    color: #00838f;
+    text-decoration: underline;
+}

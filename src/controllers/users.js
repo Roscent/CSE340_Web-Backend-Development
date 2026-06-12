@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -36,7 +36,6 @@ const processLoginForm = async (req, res) => {
     try {
         const user = await authenticateUser(email, password);
         if (user) {
-            // Store user info in session
             req.session.user = user;
             req.flash('success', 'Login successful!');
 
@@ -44,15 +43,15 @@ const processLoginForm = async (req, res) => {
                 console.log('User logged in:', user);
             }
 
-            res.redirect('/');
+            return res.redirect('/dashboard');
         } else {
             req.flash('error', 'Invalid email or password.');
-            res.redirect('/login');
+            return res.redirect('/login');
         }
     } catch (error) {
         console.error('Error during login:', error);
         req.flash('error', 'An error occurred during login. Please try again.');
-        res.redirect('/login');
+        return res.redirect('/login');
     }
 };
 
@@ -65,5 +64,65 @@ const processLogout = async (req, res) => {
     res.redirect('/login');
 };
 
+const requireLogin = (req, res, next) => {
+    if (!req.session || !req.session.user) {
+        req.flash('error', 'You must be logged in to access that page.');
+        return res.redirect('/login');
+    }
+    next();
+};
 
-export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout };
+const showDashboard = (req, res) => {
+    const user = req.session.user;
+    res.render('dashboard', { 
+        title: 'Dashboard',
+        name: user.name,
+        email: user.email
+    });
+};
+
+/**
+ * Middleware factory to require specific role for route access
+ * Returns middleware that checks if user has the required role
+ * 
+ * @param {string} role - The role name required (e.g., 'admin', 'user')
+ * @returns {Function} Express middleware function
+ */
+const requireRole = (role) => {
+    return (req, res, next) => {
+        // Check if user is logged in first
+        if (!req.session || !req.session.user) {
+            req.flash('error', 'You must be logged in to access this page.');
+            return res.redirect('/login');
+        }
+
+        // Check if user's role matches the required role
+        if (req.session.user.role_name !== role) {
+            req.flash('error', 'You do not have permission to access this page.');
+            return res.redirect('/');
+        }
+
+        // User has required role, continue
+        next();
+    };
+};
+
+const showUsersPage = async (req, res, next) => {
+    try {
+        const users = await getAllUsers();
+        const title = 'System Users';
+        
+        res.render('users', { 
+            title, 
+            users,
+            userName: req.session.user.name
+        });
+    } catch (error) {
+        console.error('Error loading users page:', error);
+        req.flash('error', 'Unable to load users list. Please try again.');
+        res.redirect('/dashboard');
+    }
+};
+
+
+export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout, requireLogin, showDashboard, requireRole, showUsersPage };

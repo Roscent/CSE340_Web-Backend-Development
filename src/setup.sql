@@ -126,3 +126,20 @@ JOIN roles r ON u.role_id = r.role_id;
 
 -- Delete the test user
 DELETE FROM users WHERE email = 'test@example.com';
+
+
+-- View all users to confirm the account was created
+SELECT * FROM users;
+
+-- View all roles to find the admin role ID
+SELECT * FROM roles;
+
+-- Update the admin account to have admin role
+UPDATE users 
+SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') 
+WHERE email = 'admin@example.com';
+
+-- Verify the update was successful by listing all users and their roles
+SELECT users.user_id, users.email, roles.role_name 
+FROM users 
+JOIN roles ON users.role_id = roles.role_id;
